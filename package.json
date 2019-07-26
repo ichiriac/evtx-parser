@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ichiriac/evtx-parser/issues"
   },
-  "homepage": "https://github.com/ichiriac/evtx-parser#readme"
+  "homepage": "https://github.com/ichiriac/evtx-parser#readme",
+  "dependencies": {
+    "binxml-parser": "^1.0.0"
+  }
 }
