@@ -25,7 +25,9 @@ class File extends Reader {
     }
     return this._header;
   }
-
+  size() {
+    return this.header().chunkCount;
+  }
   chunk(index = 0) {
     if (this._chunks.length <= index) {
       this._chunks[index] = new chunk(this, index);

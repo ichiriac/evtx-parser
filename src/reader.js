@@ -41,6 +41,15 @@ class Reader {
     return result;
   }
 
+  getReader(size) {
+    var result = this._buffer.slice(
+      this._position,
+      this._position + size
+    )
+    this._position += size;
+    return new Reader(result);
+  }
+
 
   assertString(value) {
     var result = this.readString(value.length);
@@ -51,6 +60,26 @@ class Reader {
   }
 
   readInt(size) {
+    var result = 0;
+    switch(size) {
+      case 1:
+        result = this._buffer.readInt8(this._position);
+        break;      
+      case 2:
+        result = this._buffer.readInt16LE(this._position);
+        break;
+      case 4:
+        result = this._buffer.readInt32LE(this._position);
+        break;
+      case 8:
+        result = this._buffer.readBigInt64LE(this._position);
+        break;    
+    }
+    this._position += size;
+    return result;
+  }
+
+  readUInt(size) {
     var result = 0;
     switch(size) {
       case 1:
@@ -77,6 +106,14 @@ class Reader {
     }
     return this;
   }
+
+  assertUInt(value, size = 4) {
+    var result = this.readUInt(size);
+    if (result !== value) {
+      throw new Error('Invalid data, expected ' + value + ' but found ' + result + ' at offset ' + (this._position - size));
+    }
+    return this;
+  }  
 
 }
 
