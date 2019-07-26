@@ -14,11 +14,11 @@ class Event {
 
     // extract date
     let time = Number(file.readUInt(8));
-    var ms = ( time / 10000 ) % 86400000;
-    var day = time / 864000000000 - 109207;
+    let ms = ( time / 10000 ) % 86400000;
+    let day = Math.round(time / 864000000000) - 109207;
     this.date = new Date( 1900, 1, 1 );
     this.date.setMilliseconds( ms );
-    this.date.setDate( day );    
+    this.date.setDate( day );
     // reads its data
     this.contents = new Xml(
       file.readBuffer(this.size - 24), chunk

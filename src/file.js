@@ -1,7 +1,8 @@
 const header = require('./header');
 const chunk = require('./chunk');
 const Reader = require('./reader');
-const readFileSync = require('fs').readFileSync;
+const fs = require('fs');
+const child_process = require('child_process');
 
 class File extends Reader {
 
@@ -12,11 +13,24 @@ class File extends Reader {
   }
 
   refresh() {
-    this._buffer = readFileSync(this._name);
+    /*let stat = fs.statSync(this._name);
+    if (this._header) {
+      // check for changes
+      if (
+        stat.atimeMs == this._stat.atimeMs
+        && stat.mtimeMs == this._stat.mtimeMs
+        && stat.ctimeMs == this._stat.ctimeMs
+      ) return false;
+    } 
+    this._stat = stat;*/
+    //const target = __dirname + '\\cache' + (new Date()).getTime() + '.evtx';
+    //child_process.execSync('copy /B /Y ' + this._name + ' ' + target );
+    this._buffer = fs.readFileSync(this._name, {"flag": 0 | 0x08000000 | 0x02000000 });
+    // fs.unlinkSync(target);
     this._position = 0;
     this._header = null;
-    this._chunks = [];
-    return this;
+    this._chunks = [];   
+    return true;
   }
 
   header() {
