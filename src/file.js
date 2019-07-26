@@ -26,6 +26,17 @@ class File extends Reader {
     return this._header;
   }
   size() {
+    if (this.header().fileFlag == 1) {
+      // file is dirty
+      for(let i = this.header().chunkCount; i < 99999; i++) {
+        try {
+          this.chunk(i);
+        } catch(e) {
+          this.header().chunkCount = i;
+          break;
+        }
+      }
+    }
     return this.header().chunkCount;
   }
   chunk(index = 0) {
