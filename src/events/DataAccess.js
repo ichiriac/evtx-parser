@@ -19,6 +19,7 @@ class DataAccess extends Default {
       ObjectType: details[5],
       ObjectName: details[6],
       HandleID: details[7],
+      AccessMask: details[9],
       ResourceAttribute: details[12]
     };
   }
